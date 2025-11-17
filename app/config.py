@@ -6,13 +6,11 @@ load_dotenv()
 
 class Config:
     REDIS_URL = os.getenv("REDIS_URL")
-    GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
     DATABASE_URL = os.getenv("DATABASE_URL")
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
     @staticmethod
     def validate():
-        required_vars = ["REDIS_URL", "GITHUB_TOKEN", "DATABASE_URL", "OPENAI_API_KEY"]
+        required_vars = ["REDIS_URL", "DATABASE_URL"]
         for var in required_vars:
             if not os.getenv(var):
                 raise ValueError(f"Environment variable {var} is missing.")
@@ -44,7 +42,6 @@ class Config:
 # class Settings(BaseSettings):
 #     REDIS_URL: str
 #     DATABASE_URL: str
-#     OPENAI_API_KEY: str
 #     GITHUB_TOKEN: str
 
 #     class Config:

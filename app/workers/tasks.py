@@ -29,9 +29,9 @@ def analyze_pr_task(self, repo_url: str, pr_number: int):
             raise Exception("No files found in the PR.")
 
         # Initialize LLM
-        llm = ChatOpenAI(
-            openai_api_key=Config.OPENAI_API_KEY,
-            model_name="gpt-4"
+        llm = ChatLlamaModel(
+            llama_api_key=Config.Llama_API_KEY,
+            model_name="llama-model-2"
         )
 
         prompt = PromptTemplate(

@@ -1,7 +1,6 @@
 from celery import Celery
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from openai import Completion
 from ..database import save_task_result
 from ..config import Config
 #celery_app = Celery('tasks', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
