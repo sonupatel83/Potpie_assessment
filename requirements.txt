@@ -1,0 +1,20 @@
+requests
+pydantic-settings
+aioredis
+langchain
+fastapi
+redis
+celery
+celery[redis]
+uvicorn
+langchain
+psycopg2-binary
+pydantic
+pytest
+python-dotenv
+openai
+pytest
+gitpython
+psycopg2
+billiard
+-e .
