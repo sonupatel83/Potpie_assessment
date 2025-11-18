@@ -29,7 +29,7 @@ def create_task(task_id: str, db: Session):
 
 
 # Update task status in Redis and PostgreSQL
-def update_task_status(task_id: str, status: str, result=None, db: Session = None):
+def update_task_status(task_id: str, status: str, result=None, db: Session = None, checkpoint: str = None):
     redis_client = get_redis_client()  # Connect to Redis
     try:
         # Update PostgreSQL
@@ -49,6 +49,8 @@ def update_task_status(task_id: str, status: str, result=None, db: Session = Non
             "status": status,
             "result": result,
         }
+        if checkpoint:
+            redis_data["checkpoint"] = checkpoint
         redis_client.set(f"task:{task_id}", json.dumps(redis_data), ex=3600)  # Set TTL of 1 hour
         logging.info(f"Task with ID {task_id} updated to status: {status}")
         return task

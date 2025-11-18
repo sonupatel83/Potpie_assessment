@@ -1,0 +1,184 @@
+[ 2025-11-17 20:30:15,456 ] 22 root - INFO - Creating tables (if not already present)...
+[ 2025-11-17 20:30:17,528 ] 1899 sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+[ 2025-11-17 20:30:17,529 ] 1904 sqlalchemy.engine.Engine - INFO - [raw sql] {}
+[ 2025-11-17 20:30:18,040 ] 1899 sqlalchemy.engine.Engine - INFO - select current_schema()
+[ 2025-11-17 20:30:18,042 ] 1904 sqlalchemy.engine.Engine - INFO - [raw sql] {}
+[ 2025-11-17 20:30:18,675 ] 1899 sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+[ 2025-11-17 20:30:18,676 ] 1904 sqlalchemy.engine.Engine - INFO - [raw sql] {}
+[ 2025-11-17 20:30:19,134 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:19,138 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+[ 2025-11-17 20:30:19,139 ] 1904 sqlalchemy.engine.Engine - INFO - [generated in 0.00088s] {'table_name': 'Github_table', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+[ 2025-11-17 20:30:19,647 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
+FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_type.typnamespace 
+WHERE pg_catalog.pg_type.typname = %(typname_1)s AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+[ 2025-11-17 20:30:19,647 ] 1904 sqlalchemy.engine.Engine - INFO - [generated in 0.00080s] {'typname_1': 'status_enum', 'nspname_1': 'pg_catalog'}
+[ 2025-11-17 20:30:20,339 ] 1143 sqlalchemy.engine.Engine - INFO - COMMIT
+[ 2025-11-17 20:30:20,582 ] 24 root - INFO - Tables created successfully.
+[ 2025-11-17 20:30:25,182 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:25,185 ] 1899 sqlalchemy.engine.Engine - INFO - INSERT INTO "Github_table" (task_id, status, result) VALUES (%(task_id)s, %(status)s, %(result)s) RETURNING "Github_table".id
+[ 2025-11-17 20:30:25,185 ] 1904 sqlalchemy.engine.Engine - INFO - [generated in 0.00057s] {'task_id': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'status': 'pending', 'result': None}
+[ 2025-11-17 20:30:25,856 ] 1143 sqlalchemy.engine.Engine - INFO - COMMIT
+[ 2025-11-17 20:30:26,119 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:26,125 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id, "Github_table".task_id, "Github_table".status, "Github_table".result 
+FROM "Github_table" 
+WHERE "Github_table".id = %(pk_1)s
+[ 2025-11-17 20:30:26,126 ] 1904 sqlalchemy.engine.Engine - INFO - [generated in 0.00143s] {'pk_1': 4}
+[ 2025-11-17 20:30:26,692 ] 23 root - INFO - Task created with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:26,695 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:28,161 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:28,165 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:28,166 ] 1904 sqlalchemy.engine.Engine - INFO - [generated in 0.00124s] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:28,725 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:28,731 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:32,110 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:32,113 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:32,114 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 3.949s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:32,631 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:32,637 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:35,943 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:35,947 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:35,950 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 7.785s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:36,425 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:36,428 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:39,851 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:39,852 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:39,854 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 11.69s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:40,434 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:40,438 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:43,929 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:43,930 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:43,931 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 15.77s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:44,348 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:44,352 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:47,497 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:47,499 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:47,501 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 19.34s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:47,980 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:47,983 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:51,323 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:51,328 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:51,332 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 23.17s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:51,897 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:51,903 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:55,190 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:55,191 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:55,192 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 27.03s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:55,675 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:55,679 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:30:58,990 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:30:58,991 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:30:58,992 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 30.83s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:30:59,681 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:30:59,684 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:03,128 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:03,130 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:03,131 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 34.97s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:03,703 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:03,708 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:07,029 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:07,031 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:07,032 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 38.87s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:07,571 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:07,574 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:10,834 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:10,835 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:10,836 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 42.67s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:11,347 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:11,349 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:15,004 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:15,005 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:15,006 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 46.85s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:15,522 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:15,524 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:19,103 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:19,104 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:19,105 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 50.95s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:19,675 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:19,679 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:23,217 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:23,218 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:23,219 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 55.06s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:23,634 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:23,636 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:26,876 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:26,877 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:26,878 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 58.72s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:27,320 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:27,322 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:31,937 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:31,938 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:31,939 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 63.78s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:32,915 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:32,917 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:31:44,553 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:31:44,555 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id AS "Github_table_id", "Github_table".task_id AS "Github_table_task_id", "Github_table".status AS "Github_table_status", "Github_table".result AS "Github_table_result" 
+FROM "Github_table" 
+WHERE "Github_table".task_id = %(task_id_1)s 
+ LIMIT %(param_1)s
+[ 2025-11-17 20:31:44,556 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 76.4s ago] {'task_id_1': 'c541b6ae-9d04-4d3f-bb49-d894e1651290', 'param_1': 1}
+[ 2025-11-17 20:31:53,923 ] 67 root - INFO - Task retrieved with ID: c541b6ae-9d04-4d3f-bb49-d894e1651290
+[ 2025-11-17 20:31:53,927 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK
+[ 2025-11-17 20:34:30,286 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:34:30,287 ] 1899 sqlalchemy.engine.Engine - INFO - INSERT INTO "Github_table" (task_id, status, result) VALUES (%(task_id)s, %(status)s, %(result)s) RETURNING "Github_table".id
+[ 2025-11-17 20:34:30,288 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 245.1s ago] {'task_id': 'abcf2ba2-5765-417e-a37b-a74e2b27f4fd', 'status': 'pending', 'result': None}
+[ 2025-11-17 20:34:30,887 ] 1143 sqlalchemy.engine.Engine - INFO - COMMIT
+[ 2025-11-17 20:34:31,103 ] 1094 sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+[ 2025-11-17 20:34:31,105 ] 1899 sqlalchemy.engine.Engine - INFO - SELECT "Github_table".id, "Github_table".task_id, "Github_table".status, "Github_table".result 
+FROM "Github_table" 
+WHERE "Github_table".id = %(pk_1)s
+[ 2025-11-17 20:34:31,105 ] 1904 sqlalchemy.engine.Engine - INFO - [cached since 245s ago] {'pk_1': 5}
+[ 2025-11-17 20:34:31,561 ] 23 root - INFO - Task created with ID: abcf2ba2-5765-417e-a37b-a74e2b27f4fd
+[ 2025-11-17 20:34:31,565 ] 1126 sqlalchemy.engine.Engine - INFO - ROLLBACK

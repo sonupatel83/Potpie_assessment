@@ -7,11 +7,13 @@ WORKDIR /app
 # Copy project files into the container
 COPY . .
 
-# # Install system dependencies
-# RUN apt-get update && apt-get install -y \
-#     gcc \
-#     libpq-dev \
-#     && apt-get clean
+# Install system dependencies for PostgreSQL and curl for healthchecks
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt

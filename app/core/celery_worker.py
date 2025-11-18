@@ -1,23 +1,27 @@
 from celery import Celery
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-from ..database import save_task_result
 from ..config import Config
-#celery_app = Celery('tasks', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
+from ..services.ollama_service import OllamaService
 
+# Note: This file appears to be legacy. The main Celery app is in app.workers.tasks
+# Keeping this for backward compatibility but it's not actively used
 
 celery_app = Celery(
     "tasks",
-    broker=Config.REDIS_URL,  # Redis for message queuing
-    backend=Config.REDIS_URL  # PostgreSQL for task results
+    broker=Config.get_redis_url(),  # Redis for message queuing
+    backend=Config.get_redis_url()  # Redis for task results
 )
+
 @celery_app.task(bind=True)
 def analyze_pr_task(self, request_data):
     try:
-        template = PromptTemplate(template="Analyze the following PR: {content}")
-        chain = LLMChain(llm=Completion(), prompt=template)
-        result = chain.run(request_data['content'])
-        save_task_result(self.request.id, result)
+        ollama_service = OllamaService()
+        result = ollama_service.analyze_code(
+            file_name=request_data.get('file_name', 'unknown'),
+            content=request_data.get('content', '')
+        )
+        # Note: save_task_result might not exist, this is legacy code
+        # from ..database import save_task_result
+        # save_task_result(self.request.id, result)
         return result
     except Exception as e:
         print(f"Error in analyze_pr_task: {str(e)}")

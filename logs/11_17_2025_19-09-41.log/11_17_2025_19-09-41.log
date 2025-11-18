@@ -1,0 +1,4 @@
+[ 2025-11-17 19:09:42,075 ] 22 root - INFO - Creating tables (if not already present)...
+[ 2025-11-17 19:09:43,964 ] 26 root - ERROR - Error while creating tables: (psycopg2.OperationalError) connection to server at "ep-delicate-leaf-a4fku0da-pooler.us-east-1.aws.neon.tech" (34.194.100.28), port 5432 failed: ERROR:  database "git-cr-pr" does not exist
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

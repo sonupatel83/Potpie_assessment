@@ -2,6 +2,26 @@ from fastapi import FastAPI
 from .api.endpoints import router as api_router
 
 app = FastAPI(title="GitHub PR Analysis API", version="1.0.0")
+
+@app.get("/")
+def root():
+    """Root endpoint - API information"""
+    return {
+        "message": "GitHub PR Analysis API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "endpoints": {
+            "analyze_pr": "POST /analyze-pr?repo_url=<url>&pr_number=<number>",
+            "status": "GET /status/{task_id}",
+            "results": "GET /results/{task_id}"
+        }
+    }
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "GitHub PR Analysis API"}
+
 app.include_router(api_router)
 
 # from fastapi import FastAPI

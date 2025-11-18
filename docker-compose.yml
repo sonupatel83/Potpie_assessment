@@ -1,60 +1,70 @@
-version: '3.8'
-
 services:
-  app:
-    build:
-      context: .
-    image: fastapi_app_image
-    container_name: fastapi_app
+  web:
+    build: .
+    image: github-pr-analyzer-web:latest
+    container_name: github-pr-analyzer-web
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
     ports:
       - "8000:8000"
     depends_on:
-      - redis
-      - postgres
-    networks:
-      - app_network
-    environment:
-      - REDIS_URL=QMaSwZyGWvOSXiGsllni3BQ0USQT6mRd@redis-19296.c8.us-east-1-3.ec2.cloud.redislabs.com:19296/0
-      - DB_URL = postgresql://neondb_user:W3gT9kFp2sQx@ep-steel-hill-902138.ap-south-1.aws.neon.tech/neondb?sslmode=require
+      - ollama
+    env_file:
+      - .env
 
-  redis:
-    image: redis:7.0
-    container_name: redis_container
-    ports:
-      - "6379:6379"
-    networks:
-      - app_network
-
-  postgres:
-    image: postgres:15
-    container_name: postgres_container
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: sunny
-      POSTGRES_DB: github_data_test_AI_agent
-    networks:
-      - app_network
-
-  celery_worker:
-    build:
-      context: .
-    image: celery_worker_image
-    container_name: celery_worker
-    command: celery -A app.workers.tasks worker --loglevel=info
+  worker:
+    build: .
+    image: github-pr-analyzer-worker:latest
+    container_name: github-pr-analyzer-worker
+    command: celery -A app.workers.tasks worker --loglevel=info -Q default
+    volumes:
+      - .:/app
     depends_on:
-      - redis
-      - postgres
-    networks:
-      - app_network
+      - ollama
+    env_file:
+      - .env
+
+  # Ollama model server
+  ollama:
+    image: ollama/ollama:latest
+    container_name: github-pr-analyzer-ollama
+    ports:
+      - "11434:11434"
     environment:
-    
-      - CELERY_BROKER_URL=redis://default:YOUR_REDIS_PASSWORD@redis-12132.c15.us-east-1-4.ec2.cloud.redislabs.com:12132/0
-      - REDIS_URL=redis://default:YOUR_REDIS_PASSWORD@redis-12132.c15.us-east-1-4.ec2.cloud.redislabs.com:12132/0
-      - DATABASE_URL=postgresql+asyncpg://neondb_owner:npg_u0Mn2XCpQZVT@ep-delicate-leaf-a4fku0da-pooler.us-east-1.aws.neon.tech/git-cr-pr?sslmode=require&channel_binding=require
+      OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_MODELS: "/models"
+    volumes:
+      - ollama_models:/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
+  # One-shot init container: waits for ollama server and pulls Gemma 3 model
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: github-pr-analyzer-ollama-init
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_MODELS: "/models"
+    volumes:
+      - ollama_models:/models
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "echo 'waiting for ollama to be ready...' &&
+       for i in $(seq 1 120); do
+         if curl -sS http://ollama:11434/api >/dev/null 2>&1; then
+           echo 'ollama reachable'; break;
+         fi;
+         echo 'waiting...' && sleep 1;
+       done;
+       echo 'pulling gemma3:4b (this may take a long time and require lots of disk)'; 
+       ollama pull gemma3:4b || ollama pull gemma3;
+       echo 'model pull finished'"
 
-networks:
-  app_network:
-    driver: bridge
+volumes:
+  ollama_models:

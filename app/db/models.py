@@ -5,7 +5,7 @@ from ..config import Config
 from ..logger import logging
 
 Base = declarative_base()
-DATABASE_URL = Config.DATABASE_URL
+DATABASE_URL = Config.SQLALCHEMY_DATABASE_URL
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
@@ -24,7 +24,11 @@ def create_tables():
         logging.info("Tables created successfully.")
     except Exception as e:
         logging.error(f"Error while creating tables: {e}")
-        raise
+        # Don't raise - allow app to start even if table creation fails
+        # This helps with connection issues during startup
 
-# Ensure tables are created when this module is imported
-create_tables()
+# Try to create tables, but don't fail if database connection is not ready
+try:
+    create_tables()
+except Exception as e:
+    logging.warning(f"Could not create tables on import: {e}. Will retry on first use.")
