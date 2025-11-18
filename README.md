@@ -1,6 +1,5 @@
 # README.md — Potpie Assessment     
-For Results Snapshot Click on this link :
-https://docs.google.com/document/d/1FHT1BLY4EyUi4zkBW7_KelMF3sSrGeWP2hJQr2CkMhE/edit?usp=sharing 
+Here are the snapshots of the output we obtained : 
 
 1. Docker Containers :
 ![Alt text](https://image2url.com/images/1763417656593-dbf5ce98-eba7-4e4b-9c78-152837decb4a.png)
